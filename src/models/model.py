@@ -41,7 +41,7 @@ class MyAwesomeModel(nn.Module):
     def __init__(self):
         super().__init__()
         self.backbone = nn.Sequential(
-            nn.Conv2d(1, 64, 3),  # [N, 64, 26]
+            nn.Conv2d(1, 19, 3),  # [N, 64, 26]
             nn.LeakyReLU(),
             nn.Conv2d(64, 32, 3),  # [N, 32, 24]
             nn.LeakyReLU(),
