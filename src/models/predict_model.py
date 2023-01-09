@@ -1,16 +1,17 @@
-import argparse
+# import argparse
 import pickle
-import sys
+# import sys
 
 import click
 import torch
-import torch.nn as nn
+# import torch.nn as nn
 from model import MyAwesomeModel
-from torch import optim
+# from torch import optim
 from torch.utils.data import DataLoader, Dataset
 import wandb
 
-wandb.init(project='training of mnist classifier', entity="mlops2023")
+wandb.init(project="training of mnist classifier", entity="mlops2023")
+
 
 class dataset(Dataset):
     def __init__(self, images, labels):
@@ -22,6 +23,7 @@ class dataset(Dataset):
 
     def __len__(self):
         return len(self.data)
+
 
 @click.command()
 @click.argument("model_checkpoint")
@@ -50,7 +52,7 @@ def evaluate(model_checkpoint, test_path):
             accuracy_ = torch.mean(equals.type(torch.FloatTensor))
             accuracy += accuracy_.item()
         accuracy /= len(test_loader)
-    print(f'Accuracy: {accuracy}')
+    print(f"Accuracy: {accuracy}")
     wandb.log({"Accuracy": accuracy})
 
 

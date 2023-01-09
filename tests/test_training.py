@@ -1,5 +1,5 @@
-import torch
-from src.models.model import MyAwesomeModel
+# import torch
+# from src.models.model import MyAwesomeModel
 
 # class TestClass:
 #     model = MyAwesomeModel()

@@ -11,7 +11,8 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 
 
-wandb.init(project='training of mnist classifier', entity="mlops2023")
+wandb.init(project="training of mnist classifier", entity="mlops2023")
+
 
 class dataset(Dataset):
     def __init__(self, images, labels):
@@ -26,9 +27,9 @@ class dataset(Dataset):
 
 
 @click.command()
-@click.option("--lr", default=1e-3, help='learning rate to use for training')
-@click.option("--epoch", default=30, help='learning rate to use for training')
-@click.option("--batch_size", default=16, help='learning rate to use for training')
+@click.option("--lr", default=1e-3, help="learning rate to use for training")
+@click.option("--epoch", default=30, help="learning rate to use for training")
+@click.option("--batch_size", default=16, help="learning rate to use for training")
 def train(lr, epoch, batch_size):
     print("Training day and night")
     print(lr)
@@ -46,8 +47,8 @@ def train(lr, epoch, batch_size):
     optimizer = optim.Adam(model.parameters(), lr=lr)
 
     epochs = epoch
-    if not os.path.exists(f'models/{model.name}/'):
-        os.makedirs(f'models/{model.name}/')
+    if not os.path.exists(f"models/{model.name}/"):
+        os.makedirs(f"models/{model.name}/")
 
     if not os.path.exists(f"reports/figures/{model.name}/"):
         os.makedirs(f"reports/figures/{model.name}/")
@@ -68,31 +69,37 @@ def train(lr, epoch, batch_size):
 
         else:
             if e == 0:
-                torch.save(model.state_dict(), f'models/{model.name}/checkpoint.pth')
+                torch.save(model.state_dict(), f"models/{model.name}/checkpoint.pth")
                 print(f"Model saved at epoch: {e} with running loss: {running_loss}")
             else:
                 if running_loss < min(train_losses):
-                    torch.save(model.state_dict(), f'models/{model.name}/checkpoint.pth')
-                    print(f"Model saved at epoch: {e} with running loss: {running_loss}")
+                    torch.save(
+                        model.state_dict(), f"models/{model.name}/checkpoint.pth"
+                    )
+                    print(
+                        f"Model saved at epoch: {e} with running loss: {running_loss}"
+                    )
 
-            train_losses += [running_loss/len(train_loader)]
+            train_losses += [running_loss / len(train_loader)]
 
-            wandb.log({"loss": running_loss/len(train_loader), "epoch": e})
+            wandb.log({"loss": running_loss / len(train_loader), "epoch": e})
 
             fig, ax = plt.subplots()
-            ax.plot(np.arange(0, e+1), train_losses, color='royalblue')
+            ax.plot(np.arange(0, e + 1), train_losses, color="royalblue")
             ax.title.set_text(f"Training loss curve at epoch: {e}")
             ax.grid()
 
             wandb.log({"plot": wandb.Image(fig)})
 
-            plt.savefig(f"reports/figures/{model.name}/{model.name}"+"training_curve")
+            plt.savefig(f"reports/figures/{model.name}/{model.name}" + "training_curve")
 
             ps = torch.exp(model(images))
             top_p, top_class = ps.topk(1, dim=1)
             equals = top_class == labels.view(*top_class.shape)
             accuracy = torch.mean(equals.type(torch.FloatTensor))
-            print(f'Epoch: {e}, Loss: {running_loss/len(train_loader)}, Accuracy: {accuracy.item() * 100}%\n')
+            print(
+                f"Epoch: {e}, Loss: {running_loss/len(train_loader)}, Accuracy: {accuracy.item() * 100}%\n"
+            )
 
 
 if __name__ == "__main__":
