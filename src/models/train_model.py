@@ -1,6 +1,6 @@
 import os
 import pickle
-import wandb
+# import wandb
 import click
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,7 +11,7 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 
 
-wandb.init(project="training of mnist classifier", entity="mlops2023")
+# wandb.init(project="training of mnist classifier", entity="mlops2023")
 
 
 class dataset(Dataset):
@@ -37,7 +37,7 @@ def train(lr, epoch, batch_size):
     # TODO: Implement training loop here
     model = MyAwesomeModel()
 
-    with open("data/processed/corruptmnist/corruptmnist_train.npz", "rb") as fb:
+    with open("data/processed/corruptmnist_train.npz", "rb") as fb:
         train_images, train_labels = pickle.load(fb)
 
     train_dataset = dataset(train_images, train_labels)
@@ -82,14 +82,14 @@ def train(lr, epoch, batch_size):
 
             train_losses += [running_loss / len(train_loader)]
 
-            wandb.log({"loss": running_loss / len(train_loader), "epoch": e})
+            # wandb.log({"loss": running_loss / len(train_loader), "epoch": e})
 
             fig, ax = plt.subplots()
             ax.plot(np.arange(0, e + 1), train_losses, color="royalblue")
             ax.title.set_text(f"Training loss curve at epoch: {e}")
             ax.grid()
 
-            wandb.log({"plot": wandb.Image(fig)})
+            # wandb.log({"plot": wandb.Image(fig)})
 
             plt.savefig(f"reports/figures/{model.name}/{model.name}" + "training_curve")
 

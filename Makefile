@@ -31,7 +31,7 @@ requirements: test_environment
 
 ## Make Dataset
 data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw/corruptmnist data/processed/corruptmnist
+	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw/ data/processed/
 
 ## train model
 train: requirements
