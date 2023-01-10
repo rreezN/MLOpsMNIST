@@ -37,7 +37,7 @@ def train(lr, epoch, batch_size):
     # TODO: Implement training loop here
     model = MyAwesomeModel()
 
-    with open("data/processed/corruptmnist_train.npz", "rb") as fb:
+    with open("data/processed/corruptmnist/corruptmnist_train.npz", "rb") as fb:
         train_images, train_labels = pickle.load(fb)
 
     train_dataset = dataset(train_images, train_labels)
