@@ -43,7 +43,7 @@ def train(lr, epoch, batch_size):
     train_dataset = dataset(train_images, train_labels)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 
-    criterion = nn.NLLLoss()
+    criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
 
     epochs = epoch
